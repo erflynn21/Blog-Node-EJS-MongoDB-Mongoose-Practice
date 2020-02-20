@@ -24,8 +24,6 @@ const postSchema = {
 
 const Post = mongoose.model("Post", postSchema);
 
-
-
 app.get("/", function(req, res){
   Post.find({}, function(err, posts){
     res.render("home",{
@@ -53,9 +51,11 @@ app.post("/compose", function(req, res){
     content: req.body.postBody
   });
 
-  post.save();
-
-  res.redirect("/");
+  post.save(function(err){
+    if (!err){
+      res.redirect("/");
+    }
+  });
 
 });
 
